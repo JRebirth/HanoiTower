@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="bean" nsURI="org.jrebirth.demo.hanoi" nsPrefix="org.jrebirth.demo.hanoi">
+  <eClassifiers xsi:type="ecore:EClass" name="Disc">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HanoiGame">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nbDisc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="first" eType="#//HanoiTower"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="second" eType="#//HanoiTower"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="third" eType="#//HanoiTower"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HanoiTower">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stack" upperBound="-1"
+        eType="#//Disc"/>
+  </eClassifiers>
+</ecore:EPackage>

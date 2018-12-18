@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.jrebirth</groupId>
+		<artifactId>ria</artifactId>
+		<version>3.0.0</version>
+	</parent>
+
+	<groupId>org.jrebirth.demo</groupId>
+	<artifactId>hanoi</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<name>Hanoi Tower</name>
+	<url>http://wip.jrebirth.org/apps/Hanoi.html</url>
+	<description>Mind Game built with JRebirth Framework</description>
+
+	<properties>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<jrebirth.version>8.6.0-SNAPSHOT</jrebirth.version>
+
+		<archiveName>HanoiTower</archiveName>
+		<exeIcon>src/main/resources/images/HT.ico</exeIcon>
+		<appClass>org.jrebirth.demo.hanoi.HanoiApplication</appClass>
+
+		<appletWidth>800</appletWidth>
+		<appletHeight>600</appletHeight>
+
+		<ciJob>Hanoi-master</ciJob>
+
+	</properties>
+
+	<scm>
+		<connection>scm:git:git://github.com/JRebirth/HanoiTower.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/JRebirth/HanoiTower.git</developerConnection>
+		<url>https://github.com/JRebirth/HanoiTower</url>
+	</scm>
+
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.jrebirth.af.tooling</groupId>
+				<artifactId>jrebirth-maven-plugin</artifactId>
+				<version>${jrebirth.version}</version>
+				<configuration>
+					<ecoreFile>model/Hanoi.ecore</ecoreFile>
+					<outputDirectory>target/generated-sources/model</outputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>ecore2fx</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>target/generated-sources/model</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Add Headless test engine, require open-jfx-monocle.jar deployed into jdk/jre/lib/ext -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<configuration>
+					<argLine>${argLine} -Dtestfx.robot=glass -Dglass.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=sw</argLine>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.2.201409121644</version>
+
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+
+
+
+	</build>
+
+	<dependencies>
+		<!-- Use logback logger -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jrebirth.af</groupId>
+			<artifactId>core</artifactId>
+			<version>${jrebirth.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jrebirth.af</groupId>
+			<artifactId>component</artifactId>
+			<version>${jrebirth.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jrebirth.af</groupId>
+			<artifactId>preloader</artifactId>
+			<version>${jrebirth.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jrebirth.af</groupId>
+			<artifactId>processor</artifactId>
+			<version>${jrebirth.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jrebirth.af</groupId>
+			<artifactId>core</artifactId>
+			<version>${jrebirth.version}</version>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testfx</groupId>
+			<artifactId>testfx-core</artifactId>
+			<version>4.0.1-alpha</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testfx</groupId>
+			<artifactId>testfx-junit</artifactId>
+			<version>4.0.1-alpha</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+</project>
