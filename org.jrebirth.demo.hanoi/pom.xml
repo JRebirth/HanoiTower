@@ -21,7 +21,7 @@
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<jrebirth.version>8.6.0-SNAPSHOT</jrebirth.version>
+		<jrebirth.version>8.6.0</jrebirth.version>
 
 		<archiveName>HanoiTower</archiveName>
 		<exeIcon>src/main/resources/images/HT.ico</exeIcon>
@@ -79,6 +79,60 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			
+							<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.5</version>
+
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<JavaFX-Version>8.0</JavaFX-Version>
+								<Main-Class>${appClass}</Main-Class>
+								<!--<JavaFX-Application-Class>${appClass}</JavaFX-Application-Class> -->
+							</manifestEntries>
+
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+								<addClasspath>true</addClasspath>
+								<classpathLayoutType>custom</classpathLayoutType>
+								<customClasspathLayout>${artifact.groupId}-${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</customClasspathLayout>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-shade-plugin</artifactId>
+					<version>2.4.3</version>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>shade</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<shadedArtifactAttached>false</shadedArtifactAttached>
+						<shadedClassifierName>shaded</shadedClassifierName>
+						<transformers>
+							<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<mainClass>${appClass}</mainClass>
+								<manifestEntries>
+									<Class-Path>.</Class-Path>
+								</manifestEntries>
+							</transformer>
+							<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+						</transformers>
+						<finalName>${archiveName}-${project.version}</finalName>
+					</configuration>
+				</plugin>
+			
 
 			<!-- Add Headless test engine, require open-jfx-monocle.jar deployed into jdk/jre/lib/ext -->
 			<plugin>
